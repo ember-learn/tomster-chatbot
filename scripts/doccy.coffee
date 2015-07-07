@@ -9,9 +9,16 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
+  redisUrl = process.env.REDISCLOUD_URL
 
   robot.hear /^!api learn (.*)/i, (res) ->
+    robot.brain.messages or= {}
+    robot.brain.messages['one'] = res.match[1]
     res.send "Learning #{res.match[1]}"
+
+  robot.hear /^!api display/i, (res) ->
+    res.send robot.brain.messages['one']
+    res.send "tried sending you what was in my brain"
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
