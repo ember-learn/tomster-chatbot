@@ -32,10 +32,6 @@ module.exports = (robot) ->
     res.reply "Here are the commands I know: `learn`, `remember`, `learned`"
     res.reply "To learn more about the command ask me `? <command>`"
 
-  robot.respond /\? learn/, (res) ->
-    res.reply "There's two ways I learn stuff:
-      * @tombot learn \"quotes-delimited key\" the thing you want me to remember
-      * !learn \"quotes-delimited key\" the things you want me to remember"
 
   learnMethod = (res) ->
     key = res.match[1]
@@ -45,6 +41,11 @@ module.exports = (robot) ->
 
   robot.hear /^!learn "(.*)" (.*)$/i, learnMethod
   robot.respond /learn "(.*)" (.*)$/i, learnMethod
+
+  robot.respond /\? learn/, (res) ->
+    res.reply "* @tombot learn \"quotes-delimited key\" the thing you want me to remember
+      * !learn \"quotes-delimited key\" the things you want me to remember
+      I will learn something new for you."
 
   rememberMethod = (res) ->
     match = res.match[1]
@@ -56,10 +57,20 @@ module.exports = (robot) ->
   robot.hear /^!remember "(.*)"/, rememberMethod
   robot.respond /.*remember "(.*)".*/, rememberMethod
 
-  robot.hear /^!learned/, (res) ->
+  robot.respond /\? remember/, (res) ->
+    res.reply "* @tombot remember \"quotes-delimited key\"
+      * !remember \"quotes-delimited key\"
+      I will try to remember something for you."
+
+  robot.respond /learned/, (res) ->
     res.send "Here's what I learned:"
     res.send '"' + thought + '" ' + robot.brain.thoughts[thought] for thought of robot.brain.thoughts
     res.emote "Fin"
+
+  robot.respond /\? learned/, (res) ->
+    res.reply " * learned // in a Direct Message
+      I will tell you every single thing I've learned.
+      Since it might be a lot please only ask me this in a Direct Message"
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
