@@ -17,12 +17,6 @@ module.exports = (robot) ->
   methodPrefix = '#method_'
   robot.brain.thoughts ?= {}
 
-  learnMethod = (res) ->
-    key = res.match[1]
-    value = res.match[2]
-    robot.brain.thoughts[key] = value
-    res.reply "gotcha, '#{key}' means '#{value}'"
-
   robot.hear /^!api (\w*\.?\w*)(#?\w*)?$/i, (res) ->
     className = match[1]
     methodValue = match[2]
@@ -34,12 +28,13 @@ module.exports = (robot) ->
       methodName = ''
     res.send "Check out " + docsUrl + className + htmlSuffix + methodName
 
-  robot.hear /^!learn "(.*)" (.*)$/i, (res) ->
+  learnMethod = (res) ->
     key = res.match[1]
     value = res.match[2]
     robot.brain.thoughts[key] = value
-    res.send "Saved a message to '#{key}' with the value: '#{value}'"
+    res.reply "gotcha, '#{key}' means '#{value}'"
 
+  robot.hear /^!learn "(.*)" (.*)$/i, learnMethod
   robot.respond /learn "(.*)" (.*)$/i, learnMethod
 
   robot.hear /^!remember "(.*)"/, (res) ->
