@@ -41,7 +41,7 @@ module.exports = (robot) ->
   robot.hear /^!learned/, (res) ->
     res.send "Here's what I learned:"
     res.send '"' + thought + '" ' + robot.brain.thoughts[thought] for thought of robot.brain.thoughts
-    res.send "Fin"
+    res.emote "Fin"
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
