@@ -17,20 +17,20 @@ module.exports = (robot) ->
   methodPrefix = '#method_'
   robot.brain.thoughts ?= {}
 
-  robot.hear /^!api (\w*)(\.\w*)?(#\w*)?$/, (res) ->
+  robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) ->
     className = res.match[1]
-    subClassName = res.match[2]? or ''
-    methodValue = res.match[3]?.gsub('#', '') or ''
-    if methodValue isnt undefined
-      methodName = methodPrefix + methodValue
-    else
-      methodName = ''
-    res.send "Check out " + docsUrl + className + subClassName + htmlSuffix + methodName
+    subClassName = res.match[2]
+    methodValue = res.match[3]?.replace('#', '')
+
+    response = "Check out " + docsUrl + className
+    response += subClassName if subClassName?
+    response += htmlSuffix
+    response += methodPrefix + methodValue if methodValue?
+    res.send response
 
   robot.respond /\?$/, (res) ->
     res.reply "Here are the commands I know: `learn`, `remember`, `learned`"
     res.reply "To learn more about the command ask me `? <command>`"
-
 
   learnMethod = (res) ->
     key = res.match[1]
@@ -38,8 +38,8 @@ module.exports = (robot) ->
     robot.brain.thoughts[key] = value
     res.reply "gotcha, '#{key}' means '#{value}'"
 
-  robot.hear /^!learn "(.*)" (.*)$/i, learnMethod
-  robot.respond /learn "(.*)" (.*)$/i, learnMethod
+  robot.hear /^!learn "(.*)" (.*)$/i, (res)-> learnMethod(res)
+  robot.respond /learn "(.*)" (.*)$/i, (res)-> learnMethod(res)
 
   robot.respond /\? learn$/, (res) ->
     res.send "* @tombot learn \"quotes-delimited key\" the thing you want me to remember"
