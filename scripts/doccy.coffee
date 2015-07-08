@@ -68,9 +68,9 @@ module.exports = (robot) ->
     res.emote "Fin"
 
   robot.respond /\? learned/, (res) ->
-    res.reply " * learned // in a Direct Message
-      I will tell you every single thing I've learned.
-      Since it might be a lot please only ask me this in a Direct Message"
+    res.send " * learned // in a Direct Message"
+    res.reply "I will tell you every single thing I've learned."
+    res.reply "Since it might be a lot please only ask me this in a Direct Message"
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
