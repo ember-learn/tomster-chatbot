@@ -28,7 +28,7 @@ module.exports = (robot) ->
       methodName = ''
     res.send "Check out " + docsUrl + className + htmlSuffix + methodName
 
-  robot.respond /\?/, (res) ->
+  robot.respond /\?$/, (res) ->
     res.reply "Here are the commands I know: `learn`, `remember`, `learned`"
     res.reply "To learn more about the command ask me `? <command>`"
 
