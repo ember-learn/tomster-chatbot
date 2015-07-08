@@ -28,11 +28,14 @@ module.exports = (robot) ->
       methodName = ''
     res.send "Check out " + docsUrl + className + htmlSuffix + methodName
 
-  robot.respond /.*learn?$/, (res) ->
-    res.reply "There's two ways I learn stuff: \
+  robot.respond /\?/, (res) ->
+    res.reply "Here are the commands I know: `learn`, `remember`, `learned`"
+    res.reply "To learn more about the command ask me `? <command>`"
+
+  robot.respond /\? learn/, (res) ->
+    res.reply "There's two ways I learn stuff:
       * @tombot learn \"quotes-delimited key\" the thing you want me to remember
-      * !learn \"quotes-delimited key\" the things you want me to remember
-    "
+      * !learn \"quotes-delimited key\" the things you want me to remember"
 
   learnMethod = (res) ->
     key = res.match[1]
