@@ -17,16 +17,15 @@ module.exports = (robot) ->
   methodPrefix = '#method_'
   robot.brain.thoughts ?= {}
 
-  robot.hear /^!api (\w*\.?\w*)(#?\w*)?$/i, (res) ->
-    className = match[1]
-    methodValue = match[2]
-    res.send 'className was ' + className
-    res.send 'methodValue was ' + methodValue
+  robot.hear /^!api (\w*)(\.\w*)?(#\w*)?$/, (res) ->
+    className = res.match[1]
+    subClassName = res.match[2]? or ''
+    methodValue = res.match[3]?.gsub('#', '') or ''
     if methodValue isnt undefined
       methodName = methodPrefix + methodValue
     else
       methodName = ''
-    res.send "Check out " + docsUrl + className + htmlSuffix + methodName
+    res.send "Check out " + docsUrl + className + subClassName + htmlSuffix + methodName
 
   robot.respond /\?$/, (res) ->
     res.reply "Here are the commands I know: `learn`, `remember`, `learned`"
