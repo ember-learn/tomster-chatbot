@@ -42,7 +42,7 @@ module.exports = (robot) ->
   robot.hear /^!learn "(.*)" (.*)$/i, learnMethod
   robot.respond /learn "(.*)" (.*)$/i, learnMethod
 
-  robot.respond /\? learn/, (res) ->
+  robot.respond /\? learn$/, (res) ->
     res.send "* @tombot learn \"quotes-delimited key\" the thing you want me to remember"
     res.send "* !learn \"quotes-delimited key\" the things you want me to remember"
     res.reply "I will learn something new for you."
@@ -67,7 +67,7 @@ module.exports = (robot) ->
     res.send '"' + thought + '" ' + robot.brain.thoughts[thought] for thought of robot.brain.thoughts
     res.emote "Fin"
 
-  robot.respond /\? learned/, (res) ->
+  robot.respond /\? learned$/, (res) ->
     res.send " * learned // in a Direct Message"
     res.reply "I will tell you every single thing I've learned."
     res.reply "Since it might be a lot please only ask me this in a Direct Message"
