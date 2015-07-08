@@ -45,7 +45,7 @@ module.exports = (robot) ->
       res.send "sorry, I don't know this :("
 
   robot.hear /^!remember "(.*)"/, rememberMethod
-  robot.respond /.* remember "(.*)" .*/, rememberMethod
+  robot.respond /.*remember "(.*)".*/, rememberMethod
 
   robot.hear /^!learned/, (res) ->
     res.send "Here's what I learned:"
