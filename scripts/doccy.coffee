@@ -7,18 +7,40 @@
 #   Uncomment the ones you want to try and experiment with.
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
+# commands: !api, !learn !relearn !forget !get
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
+  docsUrl = 'http://emberjs.com/api/classes/'
+  htmlSuffix = '.html'
+  methodPrefix = '#method_'
+  robot.brain.thoughts ?= {}
 
-  robot.hear /^!api learn (.*)/i, (res) ->
-    robot.brain.messages or= {}
-    robot.brain.messages['one'] = res.match[1]
-    res.send "Learning #{res.match[1]}"
+  robot.hear /^!api (\w*\.?\w*)(#?\w*)?$/i, (res) ->
+    className = match[1]
+    methodValue = match[2]
+    res.send 'className was ' + className
+    res.send 'methodValue was ' + methodValue
+    if methodValue isnt undefined
+      methodName = methodPrefix + methodValue
+    else
+      methodName = ''
+    res.send "Check out " + docsUrl + className + htmlSuffix + methodName
 
-  robot.hear /^!api display/i, (res) ->
-    res.send robot.brain.messages['one']
-    res.send "tried sending you what was in my brain"
+  robot.hear /^!learn "(.*)" (.*)$/i, (res) ->
+    key = res.match[1]
+    value = res.match[2]
+    robot.brain.thoughts[key] = value
+    res.send "Saved a message to '#{key}' with the value: '#{value}'"
+
+  robot.hear /^!remember "(.*)"/, (res) ->
+    match = res.match[1]
+    res.send '!remember...'
+    res.send robot.brain.thoughts[match]
+
+  robot.hear /^!learned/, (res) ->
+    res.send "here's what I learned:"
+    res.send '"' + thought + '" ' + robot.brain.thoughts[thought] for thought of robot.brain.thoughts
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
