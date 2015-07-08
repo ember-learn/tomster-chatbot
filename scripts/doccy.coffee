@@ -33,6 +33,12 @@ module.exports = (robot) ->
     robot.brain.thoughts[key] = value
     res.send "Saved a message to '#{key}' with the value: '#{value}'"
 
+  robot.respond /learn "(.*)" (.*)$/i, (res) ->
+    key = res.match[1]
+    value = res.match[2]
+    robot.brain.thoughts[key] = value
+    res.reply "gotcha, '#{key}' means '#{value}'"
+
   robot.hear /^!remember "(.*)"/, (res) ->
     match = res.match[1]
     res.send '!remember...'
