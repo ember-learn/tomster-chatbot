@@ -9,6 +9,12 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 # commands: !api, !learn !relearn !forget !get
 
+learnMethod = (res) ->
+  key = res.match[1]
+  value = res.match[2]
+  robot.brain.thoughts[key] = value
+  res.reply "gotcha, '#{key}' means '#{value}'"
+
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
   docsUrl = 'http://emberjs.com/api/classes/'
@@ -33,11 +39,7 @@ module.exports = (robot) ->
     robot.brain.thoughts[key] = value
     res.send "Saved a message to '#{key}' with the value: '#{value}'"
 
-  robot.respond /learn "(.*)" (.*)$/i, (res) ->
-    key = res.match[1]
-    value = res.match[2]
-    robot.brain.thoughts[key] = value
-    res.reply "gotcha, '#{key}' means '#{value}'"
+  robot.respond /learn "(.*)" (.*)$/i, learnMethod
 
   robot.hear /^!remember "(.*)"/, (res) ->
     match = res.match[1]
