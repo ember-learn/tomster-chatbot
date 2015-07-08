@@ -37,10 +37,15 @@ module.exports = (robot) ->
   robot.hear /^!learn "(.*)" (.*)$/i, learnMethod
   robot.respond /learn "(.*)" (.*)$/i, learnMethod
 
-  robot.hear /^!remember "(.*)"/, (res) ->
+  rememberMethod = (res) ->
     match = res.match[1]
-    res.send '!remember...'
-    res.send robot.brain.thoughts[match]
+    if `match in robot.brain.thoughts`
+      res.send robot.brain.thoughts[match]
+    else
+      res.send "sorry, I don't know this :("
+
+  robot.hear /^!remember "(.*)"/, rememberMethod
+  robot.respond /.* remember "(.*)" .*/, rememberMethod
 
   robot.hear /^!learned/, (res) ->
     res.send "Here's what I learned:"
