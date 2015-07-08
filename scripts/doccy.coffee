@@ -9,11 +9,6 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 # commands: !api, !learn !relearn !forget !get
 
-learnMethod = (res) ->
-  key = res.match[1]
-  value = res.match[2]
-  robot.brain.thoughts[key] = value
-  res.reply "gotcha, '#{key}' means '#{value}'"
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
@@ -21,6 +16,12 @@ module.exports = (robot) ->
   htmlSuffix = '.html'
   methodPrefix = '#method_'
   robot.brain.thoughts ?= {}
+
+  learnMethod = (res) ->
+    key = res.match[1]
+    value = res.match[2]
+    robot.brain.thoughts[key] = value
+    res.reply "gotcha, '#{key}' means '#{value}'"
 
   robot.hear /^!api (\w*\.?\w*)(#?\w*)?$/i, (res) ->
     className = match[1]
