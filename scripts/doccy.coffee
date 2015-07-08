@@ -39,8 +39,9 @@ module.exports = (robot) ->
     res.send robot.brain.thoughts[match]
 
   robot.hear /^!learned/, (res) ->
-    res.send "here's what I learned:"
+    res.send "Here's what I learned:"
     res.send '"' + thought + '" ' + robot.brain.thoughts[thought] for thought of robot.brain.thoughts
+    res.send "Fin"
 
   # robot.respond /open the (.*) doors/i, (res) ->
   #   doorType = res.match[1]
