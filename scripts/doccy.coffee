@@ -43,9 +43,9 @@ module.exports = (robot) ->
   robot.respond /learn "(.*)" (.*)$/i, learnMethod
 
   robot.respond /\? learn/, (res) ->
-    res.reply "* @tombot learn \"quotes-delimited key\" the thing you want me to remember
-      * !learn \"quotes-delimited key\" the things you want me to remember
-      I will learn something new for you."
+    res.send "* @tombot learn \"quotes-delimited key\" the thing you want me to remember"
+    res.send "* !learn \"quotes-delimited key\" the things you want me to remember"
+    res.reply "I will learn something new for you."
 
   rememberMethod = (res) ->
     match = res.match[1]
