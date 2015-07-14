@@ -13,9 +13,6 @@ module.exports = (robot) ->
   htmlSuffix = '.html'
   methodPrefix = '#method_'
 
-  robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
-  robot.respond /^api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
-
   printApiLink: (res)->
     className = res.match[1]
     subClassName = res.match[2]
@@ -26,3 +23,6 @@ module.exports = (robot) ->
     response += htmlSuffix
     response += methodPrefix + methodValue if methodValue?
     res.send response
+
+  robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
+  robot.respond /^api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
