@@ -1,14 +1,14 @@
 # Description:
-#   Example scripts for you to examine and try out.
+#   Use hubots redis brain to store useful information
 #
-# Notes:
-#   They are commented out by default, because most of them are pretty silly and
-#   wouldn't be useful and amusing enough for day to day huboting.
-#   Uncomment the ones you want to try and experiment with.
+# Author:
+#   locks
 #
-#   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
-# commands: !api, !learn !relearn !forget !get
-
+# Commands:
+#   hubot learn "<key name>" means <value> - Get Hubot to memorize something new
+#   !learn "<key name>" means <value> - Get Hubot to memorize something new
+#   hubot relearn "<key name>" means <value> - Overwrite something that Hubot learned before
+#   hubot ? - Lists all the things that Hubot has learned
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
