@@ -13,7 +13,7 @@ module.exports = (robot) ->
   htmlSuffix = '.html'
   methodPrefix = '#method_'
 
-  printApiLink: (res)->
+  printApiLink = (res)->
     className = res.match[1]
     subClassName = res.match[2]
     methodValue = res.match[3]?.replace('#', '')
