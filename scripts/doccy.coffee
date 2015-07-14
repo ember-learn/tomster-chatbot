@@ -12,21 +12,7 @@
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
-  docsUrl = 'http://emberjs.com/api/classes/'
-  htmlSuffix = '.html'
-  methodPrefix = '#method_'
   thoughts = null
-
-  robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) ->
-    className = res.match[1]
-    subClassName = res.match[2]
-    methodValue = res.match[3]?.replace('#', '')
-
-    response = "Check out " + docsUrl + className
-    response += subClassName if subClassName?
-    response += htmlSuffix
-    response += methodPrefix + methodValue if methodValue?
-    res.send response
 
   robot.respond /\?$/, (res) ->
     res.reply "Here are the commands I know: `learn`, `remember`, `learned`, `relearn`"
