@@ -64,9 +64,7 @@ module.exports = (robot) ->
     res.respond "I will try to remember something for you."
 
   robot.respond /learned/, (res) ->
-    res.send "Here's what I learned:"
-    res.send "*\"#{thought}\"*: #{thoughts[thought]}" for thought of thoughts
-    res.emote "Fin"
+    res.reply "check out my brain at http://rampant-stove.surge.sh/"
 
   robot.respond /\? learned$/, (res) ->
     res.send " * learned // in a Direct Message"
