@@ -34,17 +34,30 @@ module.exports = (robot) ->
   robot.respond /relearn "([^"]+)" (.+)$/i, (res)-> relearnMethod(res)
 
   rememberMethod = (res) ->
+    console.log(res.match)
     [_, match] = res.match
-    if `match in thoughts`
+    if match of thoughts
       res.send thoughts[match]
     else
       res.send "sorry, I don't know this :("
 
   robot.respond /.*remember "([^"]+)".*/, rememberMethod
+  robot.respond /([^?]+)?/, rememberMethod
 
   robot.respond /learned/, (res) ->
     res.reply "check out my brain at http://rampant-stove.surge.sh/"
 
+  robot.respond /forget "([^"]+)"/i, (res) ->
+    [_, match] = res.match
+    if match of thoughts
+      delete robot.brain.data.thoughts[match]
+      robot.brain.emit 'save'
+      res.reply "what? #{match}? never heard about it."
+    else
+      res.reply "I never learned about #{match}"
+
   robot.brain.on 'loaded', ->
     thoughts = robot.brain.data.thoughts
     thoughts ?= {}
+
+# DM: robot.send {room: message.envelope.user.name}, message
