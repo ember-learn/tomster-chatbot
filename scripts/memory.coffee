@@ -43,9 +43,7 @@ module.exports = (robot) ->
   robot.respond /.*remember "([^"]+)".*/, rememberMethod
 
   robot.respond /learned/, (res) ->
-    res.send "Here's what I learned:"
-    res.send "*\"#{thought}\"*: #{thoughts[thought]}" for thought of thoughts
-    res.emote "Fin"
+    res.reply "check out my brain at http://rampant-stove.surge.sh/"
 
   robot.brain.on 'loaded', ->
     thoughts = robot.brain.data.thoughts
