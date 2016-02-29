@@ -52,7 +52,7 @@ module.exports = (robot) ->
     if match of thoughts
       delete robot.brain.data.thoughts[match]
       robot.brain.emit 'save'
-      res.reply "what? #{match}? never heard about it."
+      res.reply "#{match}? never heard about it. :wink:"
     else
       res.reply "I never learned about #{match}"
 
