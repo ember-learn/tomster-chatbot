@@ -8,6 +8,10 @@
 #   hubot learn "<key name>" means <value> - Get Hubot to memorize something new
 #   hubot relearn "<key name>" means <value> - Overwrite something that Hubot learned before
 #   hubot learned - Check all the things Hubot as learned so far
+#   hubot remember "<key name>" - Retrieves a specific fact
+#   hubot <key name>? - Retrieves a specific fact
+
+admins = { 'lala': 'lala' }
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
@@ -42,13 +46,19 @@ module.exports = (robot) ->
       res.send "sorry, I don't know this :("
 
   robot.respond /.*remember "([^"]+)".*/, rememberMethod
-  robot.respond /([^?]+)?/, rememberMethod
+  robot.respond /([^?]+)\?/, rememberMethod
 
   robot.respond /learned/, (res) ->
     res.reply "check out my brain at http://rampant-stove.surge.sh/"
 
   robot.respond /forget "([^"]+)"/i, (res) ->
     [_, match] = res.match
+    username = message.envelope.user.name
+
+    unless username of admins
+      res.reply "sorry, you don't have permissions"
+      return
+
     if match of thoughts
       delete robot.brain.data.thoughts[match]
       robot.brain.emit 'save'
