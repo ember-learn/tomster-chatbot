@@ -46,7 +46,7 @@ module.exports = (robot) ->
       res.send "sorry, I don't know this :("
 
   robot.respond /.*remember "([^"]+)".*/, rememberMethod
-  robot.respond /([^?]+)?/, rememberMethod
+  robot.respond /([^?]+)\?/, rememberMethod
 
   robot.respond /learned/, (res) ->
     res.reply "check out my brain at http://rampant-stove.surge.sh/"
