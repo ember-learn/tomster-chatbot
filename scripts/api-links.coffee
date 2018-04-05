@@ -8,21 +8,21 @@
 # Author:
 #   brandonjmckay
 
-module.exports = (robot) ->
-  docsUrl = 'http://emberjs.com/api/classes/'
-  htmlSuffix = '.html'
-  methodPrefix = '#method_'
+# module.exports = (robot) ->
+#   docsUrl = 'http://emberjs.com/api/classes/'
+#   htmlSuffix = '.html'
+#   methodPrefix = '#method_'
 
-  printApiLink = (res)->
-    className = res.match[1]
-    subClassName = res.match[2]
-    methodValue = res.match[3]?.replace('#', '')
+#   printApiLink = (res)->
+#     className = res.match[1]
+#     subClassName = res.match[2]
+#     methodValue = res.match[3]?.replace('#', '')
 
-    response = "Check out " + docsUrl + className
-    response += subClassName if subClassName?
-    response += htmlSuffix
-    response += methodPrefix + methodValue if methodValue?
-    res.send response
+#     response = "Check out " + docsUrl + className
+#     response += subClassName if subClassName?
+#     response += htmlSuffix
+#     response += methodPrefix + methodValue if methodValue?
+#     res.send response
 
-  robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
-  robot.respond /^api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
+#   robot.hear /^!api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)
+#   robot.respond /^api (\w*)(\.\w*)?(\#\w*)?/, (res) -> printApiLink(res)

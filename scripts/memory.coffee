@@ -15,7 +15,7 @@ admins = { 'lala': 'lala' }
 
 module.exports = (robot) ->
   redisUrl = process.env.REDISCLOUD_URL
-  thoughts = null
+  thoughts = {}
 
   actuallyLearnMethod = (res, key, value) ->
     thoughts[key] = value
@@ -49,7 +49,7 @@ module.exports = (robot) ->
   robot.respond /([^?]+)\?/, rememberMethod
 
   robot.respond /learned/, (res) ->
-    res.reply "check out my brain at http://rampant-stove.surge.sh/"
+    res.reply ("My friends have taught me about," + "\n" + Object.keys(thoughts).join(",\n"))
 
   robot.respond /forget "([^"]+)"/i, (res) ->
     [_, match] = res.match
