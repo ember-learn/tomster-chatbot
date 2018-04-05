@@ -14,18 +14,17 @@
 admins = { 'lala': 'lala' }
 
 module.exports = (robot) ->
-  redisUrl = process.env.REDISCLOUD_URL
-  thoughts = {}
 
   actuallyLearnMethod = (res, key, value) ->
-    thoughts[key] = value
-    robot.brain.emit 'save'
-    res.reply "gotcha, *'#{key}'* means '#{value}'"
+    robot.brain.set key, value
+    robot.brain.save
+    res.reply "gotcha :+1:, *'#{key}'* means '#{value}'"
 
   learnMethod = (res) ->
     [_, key, value] = res.match
-    if thoughts[key]
-      res.reply "I've already learnt that \" #{key} \" means #{thoughts[key]}"
+    thought = robot.brain.get key
+    if thought
+      res.reply "I've already learnt that :sunglasses: \" #{key} \" means #{thought}"
     else
       actuallyLearnMethod(res, key, value)
 
@@ -40,8 +39,9 @@ module.exports = (robot) ->
   rememberMethod = (res) ->
     console.log(res.match)
     [_, match] = res.match
-    if match of thoughts
-      res.send thoughts[match]
+    thought = robot.brain.get match
+    if thought
+      res.send thought
     else
       res.send "sorry, I don't know this :("
 
@@ -49,25 +49,23 @@ module.exports = (robot) ->
   robot.respond /([^?]+)\?/, rememberMethod
 
   robot.respond /learned/, (res) ->
-    res.reply ("My friends have taught me about," + "\n" + Object.keys(thoughts).join(",\n"))
+    res.reply ("My friends have taught me about," + "\n" + Object.keys(robot.brain.data._private).join("\n"))
 
   robot.respond /forget "([^"]+)"/i, (res) ->
     [_, match] = res.match
     username = message.envelope.user.name
 
     unless username of admins
-      res.reply "sorry, you don't have permissions"
+      res.reply "sorry, you don't have permissions :stuck_out_tongue_winking_eye:"
       return
 
-    if match of thoughts
-      delete robot.brain.data.thoughts[match]
-      robot.brain.emit 'save'
+    thought = robot.brain.get match
+    if match
+      robot.brain.remove match
+      robot.brain.save
       res.reply "#{match}? never heard about it. :wink:"
     else
       res.reply "I never learned about #{match}"
 
-  robot.brain.on 'loaded', ->
-    thoughts = robot.brain.data.thoughts
-    thoughts ?= {}
 
 # DM: robot.send {room: message.envelope.user.name}, message
